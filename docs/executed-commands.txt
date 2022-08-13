@@ -5,6 +5,9 @@ git remote add origin git@github.com:cristianomartinsdias82/dating-app.git
                       https://github.com/cristianomartinsdias82/dating-app.git
 git push --all --set-upstream origin
 
+*touch .gitignore (cd into solution root folder to execute this command!) (Also, checkout .gitignore file)
+
+*dotnet new gitignore (cd into solution root folder to execute this command!)
 dotnet dev-certs http —trust
 dotnet tool install —global dotnet-ef
 
@@ -22,3 +25,6 @@ git add .
 git status
 git commit -m "Add Entity Framework with MySql as the database provider"
 git push
+
+
+*both commands work to create the ignore file, but the latter produces the file that is ready to go!
