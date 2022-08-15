@@ -30,6 +30,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
@@ -55,6 +56,16 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(policy => {
+
+                var commaSeparatedAllowedOrigins = _config["AllowedOrigins"].Split(',');
+
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins(commaSeparatedAllowedOrigins);
+            });
 
             app.UseAuthorization();
 

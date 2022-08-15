@@ -1,13 +1,24 @@
 Executed commands:
 
+SERVER-SIDE
+
+dotnet new sln -n DatingApp
+dotnet new webapi -n DatingApp.Api
+dotnet sln add DatingApp.Api
+
 git init
+git add README.md
+git commit -m "Initial"
+git branch -M master
 git remote add origin git@github.com:cristianomartinsdias82/dating-app.git
                       https://github.com/cristianomartinsdias82/dating-app.git
-git push --all --set-upstream origin
+git push -u origin master
 
-*touch .gitignore (cd into solution root folder to execute this command!) (Also, checkout .gitignore file)
+(A)*
+touch .gitignore (cd into solution root folder to execute this command!) (Also, checkout .gitignore file)
 
-*dotnet new gitignore (cd into solution root folder to execute this command!)
+(B)*
+dotnet new gitignore (cd into solution root folder to execute this command!)
 dotnet dev-certs http —trust
 dotnet tool install —global dotnet-ef
 
@@ -20,6 +31,8 @@ dotnet restore
 dotnet ef migrations add InitialCreate -o Data/Migrations
 dotnet ef database update
 
+dotnet watch run
+
 
 git add .
 git status
@@ -28,3 +41,56 @@ git push
 
 
 *both commands work to create the ignore file, but the latter produces the file that is ready to go!
+
+-----------------------------------------------------------------------
+
+CLIENT-SIDE
+
+npm install -g @angular/cli
+  (for some specific version -> npm install -g @angular/cli@XX)
+  (for latest version -> npm install -g @angular/cli@latest)
+
+(cd into DatingApp root folder)
+ng new client --directory client --create-application false --skip-install --interactive false
+
+(cd into client folder)
+ng g app DatingApp --strict false --style scss --routing true --prefix dta
+
+FOR YOUR INFORMATION ONLY
+Whenever you wish to add other projects - app or library - to the workspace, use the examples above:
+ cd into client folder, then:
+ ng g lib MyLibWithAnyName
+
+ cd into client folder, then:
+ ng g app MyOtherAppWithAnyName --strict false --style scss --routing true --prefix dta
+
+Then, whenever you wish to add some feature (comp, serv, pipe, direct, resolve, guard etc) to one of your projects, use --project [PROJNAME] parameter. Example:
+ ng g component Xpto --project MyLibWithAnyName
+
+If you wish to add external libraries to one of your project, same applies here:
+ ng add @angular/material --project=[PROJNAME]
+
+If you wish to test some specific project of your workspace, same applies here:
+ ng test --project=[PROJNAME]
+
+If you wish to launch some specific project of your workspace, same applies here:
+ ng serve --project=[PROJNAME] --open
+
+Reference url:
+(https://octoperf.com/blog/2019/08/22/kraken-angular-workspace-multi-application-project/#sharing-assets-across-libraries-and-applications)
+
+
+External client libraries
+- Bootstrap (valor-software.com/ngx-boostrap)
+  How its been installed:
+    cd into client/projects/dating-app
+    npm install --save jquery@latest
+    npm install --save bootstrap@4.5.3
+    npm install ngx-bootstrap@latest --legacy-peer-deps
+
+- Font-awesome
+  How its been installed:
+    cd into client/projects/dating-app
+    npm install --save font-awesome
+
+Self-signed HTTPS certificate (MAC OS)
