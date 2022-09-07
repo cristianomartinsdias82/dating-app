@@ -42,17 +42,31 @@ git push
 
 *both commands work to create the ignore file, but the latter produces the file that is ready to go!
 
+dotnet ef migrations add AddedUserPasswordProperties
+dotnet ef database update
+
+
+IF you with to drop the database, here's the command
+dotnet ef database drop (JUST CONFIRM AND WAIT)
+THEN, just recreate it
+dotnet ef database update
+
+dotnet add package System.IdentityModel.Tokens.Jwt
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 -----------------------------------------------------------------------
 
 CLIENT-SIDE
 
+Angular-CLI installation
 npm install -g @angular/cli
   (for some specific version -> npm install -g @angular/cli@XX)
   (for latest version -> npm install -g @angular/cli@latest)
 
+Workspace creation
 (cd into DatingApp root folder)
 ng new client --directory client --create-application false --skip-install --interactive false
 
+DatingApp Spa app creation
 (cd into client folder)
 ng g app DatingApp --strict false --style scss --routing true --prefix dta
 
@@ -94,3 +108,28 @@ External client libraries
     npm install --save font-awesome
 
 Self-signed HTTPS certificate (MAC OS)
+
+Project development CLI commands
+ng g c NavBar --project dating-app --skip-tests
+
+ng g s Account --project dating-app --skip-tests
+
+ng g c Home --project dating-app --skip-tests
+
+ng g c Registration --project dating-app --skip-tests
+
+ng g c members/MembersList --skip-tests
+
+ng g c members/MemberDetails --skip-tests
+
+ng g c Lists --skip-tests
+
+ng g c Messages --skip-tests
+
+ng add ngx-toastr --project dating-app
+
+ng g g AuthenticationRequired --skip-tests
+
+ng add bootswatch --project dating-app
+
+ng g m Shared

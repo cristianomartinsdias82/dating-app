@@ -1,0 +1,21 @@
+<div class="container mt-5">
+  <div *ngIf="!registrationMode" class="text-center">
+    <h1>We have the perfect match for you!</h1>
+    <p class="lead">
+      Come pick your soulmate! All you need to do is to sign up!
+      Let the gangbangs begin!
+    </p>
+    <div class="text-center">
+      <button class="btn btn-primary btn-lg mr-1" (click)="registerToggle()">Register</button>
+      <button class="btn btn-info btn-lg">Learn more...</button>
+    </div>
+  </div>
+
+  <div *ngIf="registrationMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <dta-registration (registrationCancelled)="onRegistrationCancelled($event)"></dta-registration>
+      </div>
+    </div>
+  </div>
+</div>

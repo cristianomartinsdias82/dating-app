@@ -25,6 +25,12 @@ namespace DatingApp.Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("longblob");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("longblob");
+
                     b.Property<string>("UserName")
                         .HasColumnType("longtext");
 

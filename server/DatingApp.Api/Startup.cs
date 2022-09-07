@@ -1,19 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using DatingApp.Api.Data;
+using DatingApp.Api.Extensions;
 
 namespace API
 {
@@ -35,12 +21,9 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
             });
-
-            services.AddDbContext<DatingAppDbContext>(config =>
-            {
-                Enum.TryParse<ServerType>("MySql", true, out var serverType);
-                config.UseMySql(_config.GetConnectionString("DatingApp"), MySqlServerVersion.Create(Version.Parse("8.0.30"), serverType));
-            });
+            
+            services.AddApplicationServices(_config);
+            services.AddIdentityServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +49,8 @@ namespace API
                     .AllowAnyMethod()
                     .WithOrigins(commaSeparatedAllowedOrigins);
             });
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
