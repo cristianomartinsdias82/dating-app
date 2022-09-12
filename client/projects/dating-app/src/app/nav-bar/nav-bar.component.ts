@@ -28,10 +28,6 @@ export class NavBarComponent implements OnInit {
             this.loginModel = { userName : '', password : '' };
             this.router.navigate(['/members']);
             this.toastrService.info('Login successful.');
-          },
-          error: err => {
-            console.log(err);
-            this.toastrService.error(err.error.message);
           }
         });
   }

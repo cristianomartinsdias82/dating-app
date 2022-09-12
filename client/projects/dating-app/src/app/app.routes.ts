@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { MessagesComponent } from './messages/messages.component';
 import { ListsComponent } from './lists/lists.component';
@@ -5,6 +6,7 @@ import { MemberDetailsComponent } from './members/member-details/member-details.
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { HomeComponent } from './home/home.component';
 import { Routes } from "@angular/router";
+import { ErrorComponent } from './error/error.component';
 
 export const AppRoutes: Routes = [
  { path: '', component: HomeComponent },
@@ -19,5 +21,7 @@ export const AppRoutes: Routes = [
     { path: 'messages', component: MessagesComponent }
    ]
  },
- { path: '**', redirectTo: '', pathMatch: 'full' }
+ { path: 'error', component: ErrorComponent },
+ { path: 'not-found', component: NotFoundComponent },
+ { path: '**', redirectTo: 'not-found', pathMatch: 'full' }
 ];

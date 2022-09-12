@@ -1,0 +1,24 @@
+<div class="container p-3 mt-3">
+<h4>Error!</h4>
+<ng-container *ngIf="error">
+  <h5 class="text-danger">{{error.message}}</h5>
+  <p class="font-weight-bold">Probably this is not an error on the client-side.</p>
+  <p>What to do next?</p>
+  <ol>
+    <li>Open Chrome Dev Tools</li>
+    <li>Inspect the Network tab</li>
+    <li>Check the failing request</li>
+    <li>Check the requested URL to make sure it is correct</li>
+    <li>Reproduce the error by using Postman (if the problem still occurs, definitely this problem is not on the client-side)</li>
+  </ol>
+  <p>Details:</p>
+  <code class="mt-5 p-2">
+    <ng-container *ngIf="error.details">
+      {{error.details}}
+    </ng-container>
+    <ng-container *ngIf="!error.details">
+      No information available.
+    </ng-container>
+  </code>
+</ng-container>
+</div>

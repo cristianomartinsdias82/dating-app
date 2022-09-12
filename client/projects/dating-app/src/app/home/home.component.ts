@@ -15,15 +15,10 @@ export class HomeComponent implements OnInit {
   registrationMode = false;
 
   ngOnInit(): void {
-    this.fetchUsers();
   }
 
   registerToggle() {
     this.registrationMode = !this.registrationMode;
-  }
-
-  fetchUsers() {
-    this.http.get(`${environment.baseUrl}users`).subscribe((users:any) => this.users = users);
   }
 
   onRegistrationCancelled(event: boolean)

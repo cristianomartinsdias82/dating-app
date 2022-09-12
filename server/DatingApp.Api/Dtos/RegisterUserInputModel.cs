@@ -5,12 +5,11 @@ namespace DatingApp.Api.Dtos
     public class RegisterUserInputModel
     {
         [Required]
-        [MinLength(3)]
-        [MaxLength(30)]
+        [StringLength(20, MinimumLength = 4)]
         public string UserName { get; set; }
         
         [Required]
-        [MinLength(8)]
+        [StringLength(100, MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

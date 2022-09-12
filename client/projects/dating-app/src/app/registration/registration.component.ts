@@ -12,6 +12,7 @@ export class RegistrationComponent implements OnInit {
   @Output() registrationCancelled = new EventEmitter<boolean>();
 
   model = { userName : '', password: '' };
+  modelStateErrors: any;
 
   constructor(
     private accountService: AccountService,
@@ -36,9 +37,12 @@ export class RegistrationComponent implements OnInit {
             this.onCancel();
             this.toastrService.success('Registration successful.');
           },
-          error: errorResponse => {
-            console.log(errorResponse);
-            this.toastrService.error(errorResponse.error.message);
+          error: errors => {
+            if (Array.isArray(errors)) {
+              this.modelStateErrors = errors;
+            } else {
+              this.modelStateErrors = null;
+            }
           }
         });
   }

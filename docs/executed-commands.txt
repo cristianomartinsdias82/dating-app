@@ -133,3 +133,9 @@ ng g g AuthenticationRequired --skip-tests
 ng add bootswatch --project dating-app
 
 ng g m Shared
+
+ng g interceptor ErrorHandling --skip-tests
+
+ng g c NotFound --skip-tests
+
+ng g c Error --skip-tests
