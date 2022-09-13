@@ -53,6 +53,15 @@ dotnet ef database update
 
 dotnet add package System.IdentityModel.Tokens.Jwt
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+dotnet ef migrations add AddedUserPhotoAndOtherProps
+dotnet ef database update
+
+dotnet ef database drop -> In this moment, your project initialization code has a convenience logic to automatically perform EF migrations (See HostExtensions.cs)
+
+dotnet ef migrations add AddedUrlPropertyToPhotoEntity
+
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 -----------------------------------------------------------------------
 
 CLIENT-SIDE

@@ -3,6 +3,7 @@ using System;
 using DatingApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatingApp.Api.Data.Migrations
 {
     [DbContext(typeof(DatingAppDbContext))]
-    partial class DatingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220912214626_AddedUserPhotoAndOtherProps")]
+    partial class AddedUserPhotoAndOtherProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +87,6 @@ namespace DatingApp.Api.Data.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PublicId")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Url")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

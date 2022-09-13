@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "95LN1bUL3ohBJ4gN/BEOlW1UJGskv2l3q4kbAzPLQquiUydetpqTqUd1ycXlmIL8rz02IpeFbf2WwFgj3uEiMw==",
+  "dgSpecHash": "ICWBciYEN81sorsgv4BzCA6ULqhFi6OD0dNrASlCNnxM2OQ0wqpLJdN6FEgJiK/i0ZPO+NLysNw1Coni+ExMVQ==",
   "success": true,
   "projectFilePath": "/Users/cristianodias/Documents/ITProjects/Angular/2022/DatingApp/server/DatingApp.Api/DatingApp.Api.csproj",
   "expectedPackageFiles": [
+    "/Users/cristianodias/.nuget/packages/automapper/11.0.0/automapper.11.0.0.nupkg.sha512",
+    "/Users/cristianodias/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/11.0.0/automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "/Users/cristianodias/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/cristianodias/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/6.0.8/microsoft.aspnetcore.authentication.jwtbearer.6.0.8.nupkg.sha512",
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
+    "/Users/cristianodias/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/Users/cristianodias/.nuget/packages/microsoft.entityframeworkcore/6.0.7/microsoft.entityframeworkcore.6.0.7.nupkg.sha512",
     "/Users/cristianodias/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.7/microsoft.entityframeworkcore.abstractions.6.0.7.nupkg.sha512",
     "/Users/cristianodias/.nuget/packages/microsoft.entityframeworkcore.analyzers/6.0.7/microsoft.entityframeworkcore.analyzers.6.0.7.nupkg.sha512",

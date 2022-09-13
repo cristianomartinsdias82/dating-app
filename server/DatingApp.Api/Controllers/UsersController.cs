@@ -1,36 +1,51 @@
-using System.Net.Mime;
-using DatingApp.Api.Data;
+using DatingApp.Api.Data.Persistence;
 using DatingApp.Api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Api.Controllers
 {
+    [Authorize]
     public class UsersController : DatingAppController
     {
-        private readonly DatingAppDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(DatingAppDbContext dbContext)
+        public UsersController(IUserRepository userRepository)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AppUser>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async ValueTask<IActionResult> Get(CancellationToken cancellationToken)
-            => Ok(await _dbContext.Users.ToListAsync(cancellationToken));
+        {
+            var users = await _userRepository.GetAllMembersAsync(cancellationToken);
 
-        [Authorize]
+            return Ok(users);
+        }
+
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async ValueTask<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.FindAsync(new object[]{ id }, cancellationToken);
+            var user = await _userRepository.GetMemberByIdAsync(id, cancellationToken);
+
+            if (user is null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
+        [HttpGet("username/{userName}")]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async ValueTask<IActionResult> GetByUserName(string userName, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetMemberByUserNameAsync(userName, cancellationToken);
 
             if (user is null)
                 return NotFound();

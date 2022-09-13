@@ -1,11 +1,8 @@
-using System.Diagnostics;
-using System.Net.Mime;
-using System;
 using Microsoft.OpenApi.Models;
 using DatingApp.Api.Extensions;
 using DatingApp.Api.Middlewares;
 
-namespace API
+namespace DatingApp.Api
 {
     public class Startup
     {
@@ -47,7 +44,6 @@ namespace API
 
             app.UseCors(policy =>
             {
-
                 var commaSeparatedAllowedOrigins = _config["AllowedOrigins"].Split(',');
 
                 policy

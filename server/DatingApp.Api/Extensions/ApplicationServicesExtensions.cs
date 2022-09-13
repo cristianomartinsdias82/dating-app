@@ -1,4 +1,6 @@
 using DatingApp.Api.Data;
+using DatingApp.Api.Data.Persistence;
+using DatingApp.Api.Mappings;
 using DatingApp.Api.Services.AuthTokenIssuing;
 using DatingApp.Api.Services.Hashing;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +19,8 @@ namespace DatingApp.Api.Extensions
             });
             services.AddScoped<IHashProvider, HashProvider>();
             services.AddScoped<IAuthTokenIssuing, AuthTokenIssuer>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             return services;
         }
