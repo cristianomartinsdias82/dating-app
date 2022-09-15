@@ -1,10 +1,12 @@
-import { ErrorHandlingInterceptorInterceptor } from './interceptors/error-handling-interceptor.interceptor';
+import { EmbedBearerTokenHeaderInterceptor } from './interceptors/embed-bearer-token-header.interceptor';
+import { ErrorHandlingInterceptor } from './interceptors/error-handling-interceptor.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './modules/shared.module';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -14,9 +16,10 @@ import { MembersListComponent } from './members/members-list/members-list.compon
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
-import { SharedModule } from './modules/shared.module';
+
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorComponent } from './error/error.component';
+import { MembersListItemComponent } from './members/members-list/members-list-item.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { ErrorComponent } from './error/error.component';
     ListsComponent,
     MessagesComponent,
     NotFoundComponent,
-    ErrorComponent
+    ErrorComponent,
+    MembersListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,8 @@ import { ErrorComponent } from './error/error.component';
     SharedModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: EmbedBearerTokenHeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

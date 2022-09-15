@@ -1,4 +1,6 @@
+import { MembersService } from './../../services/members.service';
 import { Component, OnInit } from '@angular/core';
+import { Member } from '../../models/member';
 
 @Component({
   selector: 'dta-members-list',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MembersListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private memberService: MembersService) { }
+
+  members: Member[];
 
   ngOnInit(): void {
+    this.fetchMembersList();
   }
 
+  fetchMembersList() {
+    this
+      .memberService
+      .getMembers()
+      .subscribe(result => this.members = result);
+  }
 }

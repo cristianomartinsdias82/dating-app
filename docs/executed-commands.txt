@@ -105,11 +105,20 @@ Reference url:
 
 External client libraries
 - Bootstrap (valor-software.com/ngx-boostrap)
-  How its been installed:
+  How it's been installed:
     cd into client/projects/dating-app
     npm install --save jquery@latest
     npm install --save bootstrap@4.5.3
+
+- NgxBootstrap
+  How it's been installed:
+    cd into client/projects/dating-app
     npm install ngx-bootstrap@latest --legacy-peer-deps
+
+- Kolkov NgxGallery
+  How it's been installed:
+    cd into client/projects/dating-app
+    npm install @kolkov/ngx-gallery --legacy-peer-deps
 
 - Font-awesome
   How its been installed:
@@ -148,3 +157,9 @@ ng g interceptor ErrorHandling --skip-tests
 ng g c NotFound --skip-tests
 
 ng g c Error --skip-tests
+
+ng g s Members --skip-tests
+
+ng g c MembersListItem --skip-tests --flat
+
+ng g interceptor EmbedBearerTokenHeader --skip-tests

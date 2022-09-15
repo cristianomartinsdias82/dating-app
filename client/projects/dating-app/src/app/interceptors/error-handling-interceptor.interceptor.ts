@@ -10,7 +10,7 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable()
-export class ErrorHandlingInterceptorInterceptor implements HttpInterceptor {
+export class ErrorHandlingInterceptor implements HttpInterceptor {
 
   constructor(
     private router: Router,
@@ -58,6 +58,7 @@ export class ErrorHandlingInterceptorInterceptor implements HttpInterceptor {
                       break;
 
                     case 404:
+
                       if (innerError.message) {
                         this.toastrService.error(innerError.message);
                       } else {
@@ -72,7 +73,7 @@ export class ErrorHandlingInterceptorInterceptor implements HttpInterceptor {
 
                     case 0:
                     default:
-                        this.toastrService.error('Unexpected application behavior. Please, do let the application support/administrator know about this occurrence.');
+                        this.toastrService.error('Unexpected application behavior. Please, do let the application support/administrator know about this occurrence. We apologize for the inconvenient.');
                         console.log(error);
                         break;
                   }

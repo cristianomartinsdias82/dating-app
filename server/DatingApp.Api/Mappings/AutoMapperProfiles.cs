@@ -20,6 +20,10 @@ namespace DatingApp.Api.Mappings
                 .ForMember(
                     x => x.Age,
                     member => member.MapFrom(y => y.Dob.HowManyYearsItsBeen())
+                )
+                .ForMember(
+                    x => x.CreatedAt,
+                    member => member.MapFrom(y => y.CreatedAt.DateTime)
                 );
 
             this.CreateMap<MemberDto, AppUser>()
