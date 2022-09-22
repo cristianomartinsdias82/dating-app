@@ -9,7 +9,7 @@ namespace DatingApp.Api.Mappings
     {
         public AutoMapperProfiles()
         {
-            this.CreateMap<AppUser, MemberDto>()
+            CreateMap<AppUser, MemberDto>()
                 .ForMember(
                     x => x.Gender,
                     member => member.MapFrom(y => y.Gender == Gender.Male ? "Male" : "Female"))
@@ -26,12 +26,14 @@ namespace DatingApp.Api.Mappings
                     member => member.MapFrom(y => y.CreatedAt.DateTime)
                 );
 
-            this.CreateMap<MemberDto, AppUser>()
+            CreateMap<MemberDto, AppUser>()
                 .ForMember(
                 x => x.Gender,
                 member => member.MapFrom(y => y.Gender == "Male" ? Gender.Male : Gender.Female));
 
-            this.CreateMap<Photo, PhotoDto>().ReverseMap();
+            CreateMap<Photo, PhotoDto>().ReverseMap();
+
+            CreateMap<UpdateMemberInputModel, AppUser>();
         }
     }
 }

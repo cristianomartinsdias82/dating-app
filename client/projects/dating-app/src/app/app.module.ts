@@ -14,12 +14,13 @@ import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
-import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorComponent } from './error/error.component';
 import { MembersListItemComponent } from './members/members-list/members-list-item.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { ProgressIndicatorInterceptor } from './interceptors/progress-indicator.interceptor';
 
 @NgModule({
   declarations: [
@@ -29,11 +30,11 @@ import { MembersListItemComponent } from './members/members-list/members-list-it
     RegistrationComponent,
     MembersListComponent,
     MemberDetailsComponent,
-    ListsComponent,
     MessagesComponent,
     NotFoundComponent,
     ErrorComponent,
-    MembersListItemComponent
+    MembersListItemComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +45,7 @@ import { MembersListItemComponent } from './members/members-list/members-list-it
     SharedModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ProgressIndicatorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: EmbedBearerTokenHeaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlingInterceptor, multi: true }
   ],

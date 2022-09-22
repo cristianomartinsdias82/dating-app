@@ -110,22 +110,34 @@ External client libraries
     npm install --save jquery@latest
     npm install --save bootstrap@4.5.3
 
-- NgxBootstrap
+- NgxBootstrap (https://valor-software.com/ngx-bootstrap/#/components/tabs?tab=api)
   How it's been installed:
     cd into client/projects/dating-app
     npm install ngx-bootstrap@latest --legacy-peer-deps
 
-- Kolkov NgxGallery
+- Kolkov NgxGallery (https://www.npmjs.com/package/@kolkov/ngx-gallery)
   How it's been installed:
     cd into client/projects/dating-app
     npm install @kolkov/ngx-gallery --legacy-peer-deps
 
 - Font-awesome
-  How its been installed:
+  How it's been installed:
     cd into client/projects/dating-app
-    npm install --save font-awesome
+    npm install font-awesome
 
-Self-signed HTTPS certificate (MAC OS)
+- Angular CDK
+  How it's been installed:
+    cd into client/projects/dating-app
+    npm i @angular/cdk --legacy-peer-deps
+
+
+- NgxSpinner (www.npmjs.com/package/ngx-spinner)
+  How it's been installed:
+    cd into client/projects/dating-app
+    ng add ngx-spinner --project dating-app OR
+    npm i ngx-spinner --legacy-peer-deps
+
+- Self-signed HTTPS certificate (MAC OS)
 
 Project development CLI commands
 ng g c NavBar --project dating-app --skip-tests
@@ -146,7 +158,7 @@ ng g c Messages --skip-tests
 
 ng add ngx-toastr --project dating-app
 
-ng g g AuthenticationRequired --skip-tests
+ng g g AuthenticationRequired --skip-tests (CanActivate option)
 
 ng add bootswatch --project dating-app
 
@@ -163,3 +175,13 @@ ng g s Members --skip-tests
 ng g c MembersListItem --skip-tests --flat
 
 ng g interceptor EmbedBearerTokenHeader --skip-tests
+
+ng g c members/MemberEdit --skip-tests
+
+ng g i guards/CanLooseDataWhenUnsavedAndClosed
+
+ng g g guards/PreventUnsavedDataLoss -skip-tests (CanDeactivate option)
+
+ng g s Busy --skip-tests
+
+ng g interceptor ProgressIndicator --skip-tests

@@ -45,7 +45,6 @@ namespace DatingApp.Api.Data.Persistence
                     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(cancellationToken);
                     
-
         public async Task<MemberDto> GetMemberByUserNameAsync(string userName, CancellationToken cancellationToken = default)
         => await _dbContext
                     .Users

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member';
 
@@ -8,17 +9,49 @@ import { Member } from '../models/member';
 })
 export class MembersService {
 
+  members:Member[];
+
   constructor(private httpClient: HttpClient) { }
 
   getMembers() {
-    return this.httpClient.get<Member[]>(`${environment.baseUrl}users`);
+
+    if (!this.members || this.members.length === 0) {
+      return this.httpClient
+          .get<Member[]>(`${environment.baseUrl}users`)
+          .pipe(
+            tap<Member[]>(data => { this.members = data })
+          );
+    }
+
+    return of(this.members);
   }
 
   getMemberById(id: string) {
+    const member = this.members?.find(m => m.id === id);
+    if (member)
+      return of(member);
+
     return this.httpClient.get<Member>(`${environment.baseUrl}users/${id}`);
   }
 
   getMemberByUserName(userName: string) {
+    const member = this.members?.find(m => m.userName === userName);
+    if (member)
+      return of(member);
+
     return this.httpClient.get<Member>(`${environment.baseUrl}users/username/${userName}`);
+  }
+
+  updateMemberProfile(member: Member) {
+    return this
+            .httpClient
+            .put(`${environment.baseUrl}users`, member)
+            .pipe(
+              tap(x => {
+                const index = this.members.findIndex(m => m.id === member.id);
+
+                this.members[index] = member;
+              })
+            );
   }
 }

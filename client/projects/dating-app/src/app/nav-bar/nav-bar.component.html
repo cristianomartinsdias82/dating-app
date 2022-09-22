@@ -19,7 +19,7 @@
       <a data-toggle="dropdown" class="btn dropdown-toggle text-light">Welcome, {{ user.userName | titlecase }}!<span class="ml-1"></span></a>
 
       <div class="mr-3 dropdown-menu mt-2">
-        <a role="button" class="dropdown-item">My profile</a>
+        <a role="button" class="dropdown-item" routerLink="/member/edit">My profile</a>
         <div class="dropdown-divider"></div>
         <a role="button" class="dropdown-item" (click)="logout()">Logout</a>
       </div>

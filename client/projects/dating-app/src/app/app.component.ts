@@ -1,5 +1,4 @@
 import { AccountService } from './services/account.service';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from './models/user';
 
@@ -9,7 +8,6 @@ import { User } from './models/user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'DatingApp';
   users: any;
 
   constructor (private accountService: AccountService) {}
