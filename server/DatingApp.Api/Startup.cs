@@ -60,8 +60,6 @@ namespace DatingApp.Api
             {
                 endpoints.MapControllers();
             });
-
-            
         }
     }
 }
