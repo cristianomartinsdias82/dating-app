@@ -69,7 +69,11 @@ namespace DatingApp.Api.Controllers
             LoginInputModel model,
             CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.UserName == model.UserName);
+            var user = await _dbContext
+                .Users
+                .Include(x => x.Photos)
+                .SingleOrDefaultAsync(x => x.UserName == model.UserName);
+
             if (user is null)
                 return StatusCode(StatusCodes.Status404NotFound, new { message = "User not found." });
 
@@ -84,7 +88,8 @@ namespace DatingApp.Api.Controllers
                     new UserDto
                     {
                         UserName = user.UserName,
-                        Token = _tokenIssuer.IssueToken(user)
+                        Token = _tokenIssuer.IssueToken(user),
+                        PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url
                     });
         }
 

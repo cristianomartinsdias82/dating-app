@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, tap } from 'rxjs';
+import { of, ReplaySubject, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member';
 
@@ -36,8 +36,9 @@ export class MembersService {
 
   getMemberByUserName(userName: string) {
     const member = this.members?.find(m => m.userName === userName);
-    if (member)
+    if (member) {
       return of(member);
+    }
 
     return this.httpClient.get<Member>(`${environment.baseUrl}users/username/${userName}`);
   }
@@ -51,6 +52,21 @@ export class MembersService {
                 const index = this.members.findIndex(m => m.id === member.id);
 
                 this.members[index] = member;
+              })
+            );
+  }
+
+  deletePhoto(memberId: string, photoId: string) {
+    return this
+            .httpClient
+            .delete(`${environment.baseUrl}users/delete-photo/${photoId}`)
+            .pipe(
+              tap(x => {
+                const member = this.members.find(x => x.id === memberId);
+
+                if (member) {
+                  member.photos.splice(member.photos.findIndex(x => x.id === photoId), 1);
+                }
               })
             );
   }

@@ -1,8 +1,9 @@
+import { Photo } from './../models/photo';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
-import { map, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, map, ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
 import { RegisterUser } from '../models/registerUser';
 
@@ -11,11 +12,13 @@ import { RegisterUser } from '../models/registerUser';
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private currentUserSource = new ReplaySubject<User>(1);
+  private currentUserMainPhotoUrlSource = new BehaviorSubject<string>('./assets/user.png');
 
   currentUser$ = this.currentUserSource.asObservable();
+  userMainPhotoUrl$ = this.currentUserMainPhotoUrlSource.asObservable();
 
   register(userRegistrationData: RegisterUser) {
     return this
@@ -46,6 +49,28 @@ export class AccountService {
   setCurrentUser(user: User)
   {
     this.currentUserSource.next(user);
+    this.currentUserMainPhotoUrlSource.next(user.photoUrl);
+  }
+
+  setMainPhoto(photo: Photo) {
+    return this.http
+               .put(`${environment.baseUrl}users/set-main-photo/${photo.id}`, null)
+               .pipe(
+                map(_ => {
+                  const user = this.getLoggedUser();
+                  user.photoUrl = photo.url;
+
+                  this.localPersistUserAndNotify(user);
+                })
+               );
+  }
+
+  getLoggedUser(key: string = 'user'): User {
+    return JSON.parse(localStorage.getItem(key));
+  }
+
+  loadUserData() {
+    this.setCurrentUser(this.getLoggedUser());
   }
 
   private localPersistUserAndNotify(user: User, key: string = 'user') {
@@ -53,6 +78,7 @@ export class AccountService {
       localStorage.setItem(key, JSON.stringify(user));
 
       this.currentUserSource.next(user);
+      this.currentUserMainPhotoUrlSource.next(user.photoUrl);
     }
   }
 }

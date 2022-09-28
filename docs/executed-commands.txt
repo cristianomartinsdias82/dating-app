@@ -62,6 +62,8 @@ dotnet ef database drop -> In this moment, your project initialization code has 
 dotnet ef migrations add AddedUrlPropertyToPhotoEntity
 
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+
+dotnet add package CloudinaryDotNet --version 1.20.0
 -----------------------------------------------------------------------
 
 CLIENT-SIDE
@@ -137,6 +139,14 @@ External client libraries
     ng add ngx-spinner --project dating-app OR
     npm i ngx-spinner --legacy-peer-deps
 
+- Ng2 File Upload (https://valor-software.com/ng2-file-upload/)
+  How it's been installed:
+    cd into client/projects/dating-app
+    npm i ng2-file-upload --legacy-peer-deps
+IMPORTANT! -> The documentation does not mention that we also need to import
+FileUploadModule from inside app.module.ts (or any other module) file
+
+
 - Self-signed HTTPS certificate (MAC OS)
 
 Project development CLI commands
@@ -185,3 +195,5 @@ ng g g guards/PreventUnsavedDataLoss -skip-tests (CanDeactivate option)
 ng g s Busy --skip-tests
 
 ng g interceptor ProgressIndicator --skip-tests
+
+ng g c members/PhotoEditor --skip-tests

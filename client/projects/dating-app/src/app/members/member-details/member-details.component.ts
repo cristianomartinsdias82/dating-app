@@ -1,5 +1,4 @@
-import { Photo } from './../../models/photo';
-import { ToastrService } from 'ngx-toastr';
+import { AccountService } from './../../services/account.service';
 import { MembersService } from './../../services/members.service';
 import { Member } from './../../models/member';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +21,8 @@ export class MemberDetailsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private paramValidationService: ParamValidationService,
-    private membersService: MembersService) { }
+    public membersService: MembersService,
+    private accountService: AccountService) { }
 
   ngOnInit(): void {
     const userName = this.activatedRoute.snapshot.paramMap.get('id');
@@ -63,7 +63,7 @@ export class MemberDetailsComponent implements OnInit {
   }
 
   getGalleryImages(): NgxGalleryImage[] {
-    return this
-            .member?.photos.map<NgxGalleryImage>(p => { return { small : p?.url, medium : p?.url, big: p?.url } });
+    return this.member?.photos
+               .map<NgxGalleryImage>(p => { return { small : p?.url, medium : p?.url, big: p?.url } });
   }
 }

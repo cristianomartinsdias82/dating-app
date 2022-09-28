@@ -26,7 +26,7 @@ export class MemberEditComponent implements OnInit, CanLooseDataWhenUnsavedAndCl
   user: User;
 
   constructor(
-    private accountService: AccountService,
+    public accountService: AccountService,
     private memberService: MembersService,
     private toastrService: ToastrService
   ) {

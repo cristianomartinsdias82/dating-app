@@ -2,6 +2,7 @@ import { AccountService } from './../services/account.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MembersService } from '../services/members.service';
 
 @Component({
   selector: 'dta-nav-bar',

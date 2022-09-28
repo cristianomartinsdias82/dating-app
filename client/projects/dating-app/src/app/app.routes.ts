@@ -19,7 +19,7 @@ export const AppRoutes: Routes = [
    children: [
     { path: 'members', component: MembersListComponent },
     { path: 'members/:id', component: MemberDetailsComponent },
-    { path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedDataLossGuard] },
+    { path: 'member/profile', component: MemberEditComponent, canDeactivate: [PreventUnsavedDataLossGuard] },
     //{ path: 'lists', component: ListsComponent },
     { path: 'messages', component: MessagesComponent }
    ]

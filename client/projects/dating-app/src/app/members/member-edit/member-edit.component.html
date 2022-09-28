@@ -9,7 +9,7 @@
   </div>
   <div class="col-4">
     <div class="card">
-      <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail" />
+      <img src="{{accountService.userMainPhotoUrl$ | async}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail" />
       <div class="card-body">
         <div>
           <strong>Location:</strong>
@@ -54,7 +54,7 @@
       </tab>
 
       <tab heading="Edit photos">
-        <p>Photo edit feature will go here</p>
+        <dta-photo-editor [member]="member"></dta-photo-editor>
       </tab>
     </tabset>
   </div>
