@@ -62,10 +62,12 @@ export class MembersService {
             .delete(`${environment.baseUrl}users/delete-photo/${photoId}`)
             .pipe(
               tap(x => {
-                const member = this.members.find(x => x.id === memberId);
+                if (this.members) {
+                  const member = this.members.find(x => x.id === memberId);
 
-                if (member) {
-                  member.photos.splice(member.photos.findIndex(x => x.id === photoId), 1);
+                  if (member) {
+                    member.photos.splice(member.photos.findIndex(x => x.id === photoId), 1);
+                  }
                 }
               })
             );

@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+using AutoMapper;
 using DatingApp.Api.Data;
 using DatingApp.Api.Dtos;
 using DatingApp.Api.Entities;
@@ -13,15 +15,18 @@ namespace DatingApp.Api.Controllers
         private readonly DatingAppDbContext _dbContext;
         private readonly IHashProvider _hashProvider;
         private readonly IAuthTokenIssuing _tokenIssuer;
+        private readonly IMapper _mapper;
 
         public AccountController(
             DatingAppDbContext dbContext,
             IHashProvider hashProvider,
-            IAuthTokenIssuing tokenIssuer)
+            IAuthTokenIssuing tokenIssuer,
+            IMapper mapper)
         {
             _dbContext = dbContext;
             _hashProvider = hashProvider;
             _tokenIssuer = tokenIssuer;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -40,23 +45,21 @@ namespace DatingApp.Api.Controllers
 
             var salt = default(byte[]);
             var passwordHash = _hashProvider.ComputeUtf8EncodedHash(model.Password, out salt);
-            var user = new AppUser
-            {
-                Id = Guid.NewGuid(),
-                UserName = model.UserName,
-                PasswordHash = passwordHash,
-                PasswordSalt = salt
-            };
 
-            await _dbContext.Users.AddAsync(user, cancellationToken);
+            var newUser = _mapper.Map<AppUser>(model);
+            newUser.PasswordHash = passwordHash;
+            newUser.PasswordSalt = salt;
+   
+            await _dbContext.Users.AddAsync(newUser, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return StatusCode(
                     StatusCodes.Status201Created,
                     new UserDto
                     {
-                        UserName = user.UserName,
-                        Token = _tokenIssuer.IssueToken(user)
+                        UserName = newUser.UserName,
+                        Token = _tokenIssuer.IssueToken(newUser),
+                        KnownAs = model.KnownAs
                     });
         }
 
@@ -89,8 +92,26 @@ namespace DatingApp.Api.Controllers
                     {
                         UserName = user.UserName,
                         Token = _tokenIssuer.IssueToken(user),
+                        KnownAs = user.KnownAs,
                         PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url
                     });
+        }
+
+        [HttpPost("check-username-availability/{userName}")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CheckUserNameAvailability(
+            string userName,
+            CancellationToken cancellationToken)
+        {
+            var userNameAlreadyTaken = await CheckUserNameForExistenceAsync(
+                userName,
+                _dbContext,
+                cancellationToken);
+
+            return StatusCode(
+                    StatusCodes.Status200OK,
+                    !userNameAlreadyTaken);
         }
 
         private static async Task<bool> CheckUserNameForExistenceAsync(

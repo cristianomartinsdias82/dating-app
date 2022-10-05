@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using DatingApp.Api.Entities;
 
 namespace DatingApp.Api.Dtos
 {
@@ -11,5 +12,24 @@ namespace DatingApp.Api.Dtos
         [Required]
         [StringLength(100, MinimumLength = 6)]
         public string Password { get; init; }
+
+        [Required]
+        [Range(typeof(bool), "true", "true")]
+        public bool TermsAccepted { get; init; }
+
+        [Required]
+        public string KnownAs { get; init; }
+
+        [Required]
+        public DateTime Dob { get;init; }
+
+        [Required]
+        public string City { get; init; }
+
+        [Required]
+        public string Country { get; init; }
+
+        [Required]
+        public string Gender { get; init; }
     }
 }

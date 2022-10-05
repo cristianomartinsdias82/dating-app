@@ -132,7 +132,6 @@ External client libraries
     cd into client/projects/dating-app
     npm i @angular/cdk --legacy-peer-deps
 
-
 - NgxSpinner (www.npmjs.com/package/ngx-spinner)
   How it's been installed:
     cd into client/projects/dating-app
@@ -197,3 +196,9 @@ ng g s Busy --skip-tests
 ng g interceptor ProgressIndicator --skip-tests
 
 ng g c members/PhotoEditor --skip-tests
+
+ng g c forms/TextInput --skip-tests
+
+ng g class forms/TextInputTypes --skip-tests
+
+ng g c forms/DateInput --skip-tests

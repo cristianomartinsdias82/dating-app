@@ -59,9 +59,20 @@ export class PhotoEditorComponent implements OnInit {
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response) {
-        this.member.photos.push(JSON.parse(response));
+
+      if (!response)
+        return;
+
+      if (!this.member.photos || this.member.photos.length === 0) {
+
+        const currentUser = this.accountService.getLoggedUser();
+
+        currentUser.photoUrl = JSON.parse(response)['url'];
+
+        this.accountService.setCurrentUser(currentUser);
       }
+
+      this.member.photos.push(JSON.parse(response));
     };
   }
 
@@ -83,7 +94,12 @@ export class PhotoEditorComponent implements OnInit {
     this.membersService
         .deletePhoto(this.member.id, photoId)
         .subscribe({
-          next: () => this.toastrService.success('Photo deleted successfully.')
+          next: () => {
+
+            this.member.photos.splice(this.member.photos.findIndex(x => x.id === photoId), 1);
+
+            this.toastrService.success('Photo deleted successfully.');
+          }
         });
   }
 }

@@ -28,12 +28,20 @@ namespace DatingApp.Api.Mappings
 
             CreateMap<MemberDto, AppUser>()
                 .ForMember(
-                x => x.Gender,
-                member => member.MapFrom(y => y.Gender == "Male" ? Gender.Male : Gender.Female));
+                    x => x.Gender,
+                    // member => member.MapFrom(y => y.Gender == "Male" ? Gender.Male : Gender.Female)
+                    member => member.MapFrom(y => Enum.Parse<Gender>(y.Gender, true))
+                );
 
             CreateMap<Photo, PhotoDto>().ReverseMap();
 
             CreateMap<UpdateMemberInputModel, AppUser>();
+
+            CreateMap<RegisterUserInputModel, AppUser>()
+                .ForMember(
+                    x => x.Gender,
+                    member => member.MapFrom(y => Enum.Parse<Gender>(y.Gender, true))
+                );
         }
     }
 }

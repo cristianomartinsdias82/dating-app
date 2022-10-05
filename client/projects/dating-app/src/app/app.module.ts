@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './modules/shared.module';
 
@@ -23,6 +23,8 @@ import { MembersListItemComponent } from './members/members-list/members-list-it
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { ProgressIndicatorInterceptor } from './interceptors/progress-indicator.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+//import { DateInputComponent } from './forms/date-input/date-input.component'; //NOT WORKING!
+//import { TextInputComponent } from './forms/text-input/text-input.component'; //NOT WORKING!
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
     ErrorComponent,
     MembersListItemComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    //DateInputComponent, //NOT WORKING
+    //TextInputComponent //NOT WORKING
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,8 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProgressIndicatorInterceptor, multi: true },

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, map, of, ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
 import { RegisterUser } from '../models/registerUser';
 
@@ -21,11 +21,14 @@ export class AccountService {
   userMainPhotoUrl$ = this.currentUserMainPhotoUrlSource.asObservable();
 
   register(userRegistrationData: RegisterUser) {
+
     return this
       .http
       .post(`${environment.baseUrl}account/register`, userRegistrationData)
       .pipe(
         map((user: User) => {
+          user.photoUrl = './assets/user.png';
+
           this.localPersistUserAndNotify(user);
         })
       );
@@ -48,8 +51,10 @@ export class AccountService {
 
   setCurrentUser(user: User)
   {
-    this.currentUserSource.next(user);
-    this.currentUserMainPhotoUrlSource.next(user.photoUrl);
+    if (user) {
+      this.currentUserSource.next(user);
+      this.currentUserMainPhotoUrlSource.next(user.photoUrl);
+    }
   }
 
   setMainPhoto(photo: Photo) {
@@ -71,6 +76,10 @@ export class AccountService {
 
   loadUserData() {
     this.setCurrentUser(this.getLoggedUser());
+  }
+
+  checkUserNameAvailability(userName: string) {
+    return this.http.post<boolean>(`${environment.baseUrl}account/check-username-availability/${userName}`, null);
   }
 
   private localPersistUserAndNotify(user: User, key: string = 'user') {
