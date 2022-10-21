@@ -17,8 +17,8 @@
 
     <div *ngIf="(accountService.currentUser$ | async) as user" class="dropdown">
       <a data-toggle="dropdown" class="btn dropdown-toggle text-light">
-        <img class="userPhoto rounded-circle" src="{{accountService.userMainPhotoUrl$ | async}}" alt="{{user.userName}}" />
-        Welcome, {{ user.userName | titlecase }}!<span class="ml-1"></span>
+        <img class="userPhoto rounded-circle" src="{{accountService.userMainPhotoUrl$ | async}}" alt="{{user.knownAs}}" />
+        Welcome, {{ user.knownAs| titlecase }}!<span class="ml-1"></span>
       </a>
 
       <div class="mr-3 dropdown-menu mt-2">

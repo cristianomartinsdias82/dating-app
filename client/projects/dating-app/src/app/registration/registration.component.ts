@@ -53,7 +53,8 @@ export class RegistrationComponent implements OnInit {
       containerClass : 'theme-orange',
       showClearButton: true,
       clearPosition: "right",
-      dateInputFormat: "MM/DD/YYYY" });
+      dateInputFormat: "MM/DD/YYYY"
+     });
 
     this.dobMaxDate = new Date();
     this.dobMaxDate.setFullYear(this.dobMaxDate.getFullYear() - 18);

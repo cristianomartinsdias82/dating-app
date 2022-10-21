@@ -145,6 +145,12 @@ External client libraries
 IMPORTANT! -> The documentation does not mention that we also need to import
 FileUploadModule from inside app.module.ts (or any other module) file
 
+- NgxTimeAgo (www.npmjs.com/package/ngx-timeago)
+  How it's been installed:
+    cd into client/projects/dating-app
+    ng add ngx-timeago --project dating-app OR
+    npm i ngx-timeago --legacy-peer-deps
+
 
 - Self-signed HTTPS certificate (MAC OS)
 

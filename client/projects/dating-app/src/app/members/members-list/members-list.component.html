@@ -1,5 +1,73 @@
-<div class="row">
+<div class="row mt-3">
+  <div class="col-3">
+    <label>Gender:</label>
+    <select [(ngModel)]="gender" class="form-control" (change)="onChanged($event)">
+      <option selected></option>
+      <option value="1">Male</option>
+      <option value="2">Female</option>
+    </select>
+  </div>
+  <div class="col-3">
+    <label>Sort by:</label>
+    <select [(ngModel)]="sortColumn" class="form-control" (change)="onChanged($event)">
+      <option selected value="knownAs">Known as</option>
+      <option value="dob">Age</option>
+      <option value="city">City</option>
+      <option value="country">Country</option>
+      <option value="gender">Gender</option>
+      <option value="newest">Newest members</option>
+      <option value="lastActive">Last active</option>
+    </select>
+  </div>
+  <div class="col-3">
+    <label>Sort direction:</label>
+    <select [(ngModel)]="sortDirection" class="form-control" (change)="onChanged($event)">
+      <option selected value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-1">
+    <label>Min age:</label>
+    <input class="form-control" type="number" min="18" max="150" [(ngModel)]="minAge" (change)="onChanged($event)" />
+  </div>
+  <div class="col-1">
+    <label>Max age:</label>
+    <input class="form-control" type="number" min="18" max="150" [(ngModel)]="maxAge" (change)="onChanged($event)" />
+  </div>
+</div>
+<div class="row mt-3">
+  <!--
   <div class="col-2" *ngFor="let item of members$ | async;" >
     <dta-members-list-item [memberData]="item"></dta-members-list-item>
   </div>
+  -->
+  <div class="col-2" *ngFor="let item of members" >
+    <dta-members-list-item [memberData]="item"></dta-members-list-item>
+  </div>
 </div>
+<div class="row" *ngIf="members">
+  <div class="d-flex justify-content-center">
+    <pagination
+    [classList]="'my-2'"
+    [totalItems]="pagination.itemCount"
+    [itemsPerPage]="pagination.pageSize"
+    [(ngModel)]="pagination.pageNumber"
+    (pageChanged)="onPageChanged($event)"
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"></pagination>
+    <span class="col-2 ml-2 form-inline">
+      <label>Items per page:</label>
+      <select [(ngModel)]="itemsPerPage" class="form-control" (change)="onChanged($event)">
+        <option selected value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+      <label>{{matchCountLabel}}</label>
+    </span>
+  </div>

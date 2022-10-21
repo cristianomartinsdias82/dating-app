@@ -39,6 +39,7 @@
     class="form-control"
     formControlName="dob"
     placeholder="I was born in"
+    [maxDate]="dobMaxDate"
     bsDatepicker [bsConfig]="bsConfig" />
     <div class="invalid-feedback" *ngIf="registerForm.get('dob').touched && registerForm.get('dob').errors">
       <p *ngIf="registerForm.get('dob').hasError('required')">Date of birth is required.</p>

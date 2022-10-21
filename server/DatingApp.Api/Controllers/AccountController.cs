@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using AutoMapper;
 using DatingApp.Api.Data;
 using DatingApp.Api.Dtos;
@@ -59,11 +58,13 @@ namespace DatingApp.Api.Controllers
                     {
                         UserName = newUser.UserName,
                         Token = _tokenIssuer.IssueToken(newUser),
-                        KnownAs = model.KnownAs
+                        KnownAs = model.KnownAs,
+                        Gender = Enum.Parse<GenderDto>($"{newUser.Gender}", true)
                     });
         }
 
         [HttpPost("login")]
+        //[ServiceFilter(typeof(LogUserActivity))]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -86,6 +87,9 @@ namespace DatingApp.Api.Controllers
             if (!base64_1.SequenceEqual(base64_2))
                 return StatusCode(StatusCodes.Status404NotFound, new { message = "Incorrect user and/or password." });
 
+            user.LastActive = DateTimeOffset.UtcNow;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
             return StatusCode(
                     StatusCodes.Status200OK,
                     new UserDto
@@ -93,7 +97,8 @@ namespace DatingApp.Api.Controllers
                         UserName = user.UserName,
                         Token = _tokenIssuer.IssueToken(user),
                         KnownAs = user.KnownAs,
-                        PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url
+                        PhotoUrl = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
+                        Gender = Enum.Parse<GenderDto>($"{user.Gender}", true)
                     });
         }
 

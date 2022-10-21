@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using DatingApp.Api.Extensions;
 using DatingApp.Api.Middlewares;
+using DatingApp.Api.ActionFilters;
 
 namespace DatingApp.Api
 {
@@ -17,6 +18,12 @@ namespace DatingApp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            /*
+            .AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+            })
+            */;
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

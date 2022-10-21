@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using DatingApp.Api.Data.Persistence;
 using DatingApp.Api.Dtos;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DatingApp.Api.Extensions;
 using DatingApp.Api.Services.ImageUploading;
+using DatingApp.Api.Helpers;
 
 namespace DatingApp.Api.Controllers
 {
@@ -30,13 +32,27 @@ namespace DatingApp.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<AppUser>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedList<MemberDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async ValueTask<IActionResult> Get(CancellationToken cancellationToken)
+        public async ValueTask<IActionResult> Get(
+            [FromQuery] QueryParams queryParams, 
+            CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllMembersAsync(cancellationToken);
+            //var users = await _userRepository.GetAllMembersAsync(cancellationToken);
+            
+            var usersPagedList = await _userRepository.GetPagedMembersAsync(
+                queryParams,
+                currentlyLoggedInUserName: User.GetUserName(),
+                cancellationToken:cancellationToken);
 
-            return Ok(users);
+            HttpContext.Response.AddPaginationHeader(
+                usersPagedList.ItemCount,
+                usersPagedList.PageCount,
+                usersPagedList.PageSize,
+                usersPagedList.PageNumber
+            );
+
+            return Ok(usersPagedList);
         }
 
         [HttpGet("{id:Guid}")]
