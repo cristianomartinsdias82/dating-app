@@ -21,5 +21,13 @@ namespace DatingApp.Api.Data.Persistence
             
          Task<MemberDto> GetMemberByIdAsync(Guid id, CancellationToken cancellationToken = default);
          Task<MemberDto> GetMemberByUserNameAsync(string userName, CancellationToken cancellationToken = default);
+
+         Task<PagedList<MemberDto>> GetPagedLikerMembersForAsync(Guid id, QueryParams queryParams, CancellationToken cancellationToken = default); //Retrieves the users that liked the user whose id is {id}
+
+         Task<PagedList<MemberDto>> GetPagedLikedByMembersForAsync(Guid id, QueryParams queryParams, CancellationToken cancellationToken = default); //Retrieves the users that were liked by user whose id is {id}
+
+         Task<bool> SaveToggleLike(UserLike userLike, CancellationToken cancellationToken = default);
+
+         Task<bool> MemberHasLikeAsync(Guid likerId, Guid likedId, CancellationToken cancellationToken = default);
     }
 }

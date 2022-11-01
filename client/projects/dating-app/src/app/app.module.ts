@@ -23,6 +23,9 @@ import { MembersListItemComponent } from './members/members-list/members-list-it
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { ProgressIndicatorInterceptor } from './interceptors/progress-indicator.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { LikesComponent } from './members/likes/likes.component';
+import { LikeMembersListComponent } from './members/likes/like-members-list.component';
+import { LikeMembersListItemComponent } from './members/likes/like-members-list-item.component';
 //import { DateInputComponent } from './forms/date-input/date-input.component'; //NOT WORKING!
 //import { TextInputComponent } from './forms/text-input/text-input.component'; //NOT WORKING!
 
@@ -40,6 +43,9 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
     MembersListItemComponent,
     MemberEditComponent,
     PhotoEditorComponent,
+    LikesComponent,
+    LikeMembersListComponent,
+    LikeMembersListItemComponent,
     //DateInputComponent, //NOT WORKING
     //TextInputComponent //NOT WORKING
   ],

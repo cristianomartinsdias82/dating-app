@@ -1,4 +1,4 @@
-namespace DatingApp.Api.Dtos
+namespace DatingApp.Api.InputModels
 {
     public record UpdateMemberInputModel
     {   

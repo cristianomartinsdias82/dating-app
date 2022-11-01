@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using DatingApp.Api.Extensions;
 using DatingApp.Api.Services.ImageUploading;
 using DatingApp.Api.Helpers;
+using DatingApp.Api.InputModels;
 
 namespace DatingApp.Api.Controllers
 {
@@ -215,6 +216,83 @@ namespace DatingApp.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("{id:Guid}/liked-users")]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async ValueTask<IActionResult> GetLikedUsers(Guid id, [FromQuery] QueryParams queryParams, CancellationToken cancellationToken)
+        {
+            var usersPagedList = await _userRepository.GetPagedLikedByMembersForAsync(
+                id,
+                queryParams,
+                cancellationToken:cancellationToken);
+
+            HttpContext.Response.AddPaginationHeader(
+                usersPagedList.ItemCount,
+                usersPagedList.PageCount,
+                usersPagedList.PageSize,
+                usersPagedList.PageNumber
+            );
+
+            return Ok(usersPagedList);
+        }
+
+        [HttpGet("{id:Guid}/liker-users")]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async ValueTask<IActionResult> GetLikerUsers(Guid id, [FromQuery] QueryParams queryParams, CancellationToken cancellationToken)
+        {
+            var usersPagedList = await _userRepository.GetPagedLikerMembersForAsync(
+                id,
+                queryParams,
+                cancellationToken:cancellationToken);
+
+            HttpContext.Response.AddPaginationHeader(
+                usersPagedList.ItemCount,
+                usersPagedList.PageCount,
+                usersPagedList.PageSize,
+                usersPagedList.PageNumber
+            );
+
+            return Ok(usersPagedList);
+        }
+
+        [HttpGet("{id:Guid}/has-like")]
+        public async ValueTask<IActionResult> CheckMemberHasLikeById(Guid id, CancellationToken cancellationToken)
+        {
+            var userId = User.GetUserId();
+
+            var hasLike = await _userRepository.MemberHasLikeAsync(userId.Value, id);
+
+            return Ok(hasLike);
+        }
+
+        [HttpPut("toggle-like")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ToggleLike(SaveLikeInputModel model, CancellationToken cancellationToken)
+        {
+            //Check whether or not the liked user is not the user itself
+            var loggedInUserId = User.GetUserId();
+
+            if (loggedInUserId == model.LikedUserId)
+                return BadRequest("Invalid operation.");
+
+            //Check whether or not the liked user exists
+            var likedUser = await _userRepository.GetByIdAsync(model.LikedUserId);
+            if (likedUser is null)
+                return NotFound("User not found.");
+
+            var didLike = await _userRepository.SaveToggleLike(
+                new() { LikedByPersonId = model.LikedUserId, LikerPersonId = loggedInUserId.Value },
+                cancellationToken);
+
+            return Ok(new { didLike });
         }
     }
 }

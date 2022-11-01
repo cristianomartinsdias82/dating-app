@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { Routes } from "@angular/router";
 import { ErrorComponent } from './error/error.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { LikesComponent } from './members/likes/likes.component';
 
 export const AppRoutes: Routes = [
  { path: '', component: HomeComponent },
@@ -20,7 +21,7 @@ export const AppRoutes: Routes = [
     { path: 'members', component: MembersListComponent },
     { path: 'members/:id', component: MemberDetailsComponent },
     { path: 'member/profile', component: MemberEditComponent, canDeactivate: [PreventUnsavedDataLossGuard] },
-    //{ path: 'lists', component: ListsComponent },
+    { path: 'lists', component: LikesComponent },
     { path: 'messages', component: MessagesComponent }
    ]
  },

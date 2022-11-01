@@ -22,6 +22,9 @@ namespace DatingApp.Api.Entities
 
         public virtual ICollection<Photo> Photos { get; set; }
 
+        public virtual ICollection<UserLike> LikedByUsers { get; set; } //the users that liked me
+        public virtual ICollection<UserLike> LikedUsers { get; set; } //the users that I liked
+        
         // public int Age
         // {
         //     get

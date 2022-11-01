@@ -1,0 +1,9 @@
+<li class="media">
+  <a routerLink="/members/{{member.userName}}">
+    <img class="mr-3" [src]="member.photoUrl" [alt]="member.knownAs" />
+  </a>
+  <div class="media-body">
+    <h5 class="mt-0 mb-1"><a routerLink="/members/{{member.userName}}">{{member.knownAs}}</a></h5>
+    {{member.introduction}}
+  </div>
+</li>

@@ -2,6 +2,7 @@ using AutoMapper;
 using DatingApp.Api.Dtos;
 using DatingApp.Api.Entities;
 using DatingApp.Api.Extensions;
+using DatingApp.Api.InputModels;
 
 namespace DatingApp.Api.Mappings
 {

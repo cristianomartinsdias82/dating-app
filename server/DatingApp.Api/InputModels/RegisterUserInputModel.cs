@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using DatingApp.Api.Entities;
 
-namespace DatingApp.Api.Dtos
+namespace DatingApp.Api.InputModels
 {
-    public record RegisterUserInputModel
+    public sealed record RegisterUserInputModel
     {
         [Required]
         [StringLength(20, MinimumLength = 4)]

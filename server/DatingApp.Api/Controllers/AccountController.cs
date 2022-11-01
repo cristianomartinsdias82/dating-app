@@ -2,6 +2,7 @@ using AutoMapper;
 using DatingApp.Api.Data;
 using DatingApp.Api.Dtos;
 using DatingApp.Api.Entities;
+using DatingApp.Api.InputModels;
 using DatingApp.Api.Services.AuthTokenIssuing;
 using DatingApp.Api.Services.Hashing;
 using Microsoft.AspNetCore.Mvc;
@@ -94,6 +95,7 @@ namespace DatingApp.Api.Controllers
                     StatusCodes.Status200OK,
                     new UserDto
                     {
+                        Id = user.Id,
                         UserName = user.UserName,
                         Token = _tokenIssuer.IssueToken(user),
                         KnownAs = user.KnownAs,

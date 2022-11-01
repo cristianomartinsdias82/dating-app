@@ -22,7 +22,10 @@
       </div>
       <div class="card-footer">
         <div class="btn-group d-flex">
-          <button class="btn btn-primary">Like</button>
+          <button (click)="onLikeClick($event)" [ngClass]="hasLike ? 'btn-default' : 'btn-primary'" class="btn">
+            <span [textContent]="hasLike ? 'Dislike' : 'Like'" class="mr-1"></span>
+            <i [ngClass]="hasLike ? 'fa-solid' : 'fa-regular'" class="fa fa-heart"></i>
+          </button>
           <button class="btn btn-success">Message</button>
         </div>
       </div>

@@ -3,6 +3,7 @@ using System;
 using DatingApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatingApp.Api.Data.Migrations
 {
     [DbContext(typeof(DatingAppDbContext))]
-    partial class DatingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221021222938_LikeEntityAdded")]
+    partial class LikeEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

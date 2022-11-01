@@ -164,5 +164,66 @@ namespace DatingApp.Api.Data.Persistence
 
         public void Update(AppUser user)
         => _dbContext.Entry(user).State = EntityState.Modified;
+
+        public async Task<PagedList<MemberDto>> GetPagedLikerMembersForAsync(Guid id, 
+        QueryParams queryParams,
+        CancellationToken cancellationToken = default)
+        {
+            //Retrieves the users that liked the user whose id is {id}
+            var usersQueryable = _dbContext
+                        .Users
+                        .Include(x => x.LikedByUsers)
+                        .Where(x => x.LikedUsers.Any(y => y.LikedByPersonId == id))
+                        .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                        .AsNoTracking();
+            
+            return await PagedList<MemberDto>.CreateAsync(
+                usersQueryable,
+                queryParams.PageNumber,
+                queryParams.PageSize);
+        }
+
+         public async Task<PagedList<MemberDto>> GetPagedLikedByMembersForAsync(Guid id,
+         QueryParams queryParams, CancellationToken cancellationToken = default)
+         {
+            //Retrieves the users that were liked by user whose id is {id}
+            var usersQueryable = _dbContext
+                        .Users
+                        .Include(x => x.LikedUsers)
+                        .Where(x => x.LikedByUsers.Any(y => y.LikerPersonId == id))
+                        .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                        .AsNoTracking();
+            
+            return await PagedList<MemberDto>.CreateAsync(
+                usersQueryable,
+                queryParams.PageNumber,
+                queryParams.PageSize);
+         }
+
+         public async Task<bool> SaveToggleLike(UserLike userLike, CancellationToken cancellationToken = default)
+         {
+            var like = await _dbContext.UserLike.FirstOrDefaultAsync(x => x.LikedByPersonId == userLike.LikedByPersonId && x.LikerPersonId == userLike.LikerPersonId,cancellationToken);
+            var didLike = false;
+
+            if (like is not null)
+            {
+                _dbContext.UserLike.Remove(like);
+                didLike = false;
+            }
+            else
+            {
+                await _dbContext.UserLike.AddAsync(userLike, cancellationToken);
+                didLike = true;
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return didLike;
+         }
+
+         public async Task<bool> MemberHasLikeAsync(Guid likerId, Guid likedId, CancellationToken cancellationToken = default)
+         {
+            return await _dbContext.UserLike.AnyAsync(x => x.LikerPersonId == likerId && x.LikedByPersonId == likedId);
+         }
     }
 }

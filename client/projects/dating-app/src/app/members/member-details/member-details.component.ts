@@ -14,6 +14,7 @@ import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov
 export class MemberDetailsComponent implements OnInit {
 
   member: Member;
+  hasLike = false;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
@@ -28,6 +29,15 @@ export class MemberDetailsComponent implements OnInit {
     const userName = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.loadMemberData(userName);
+  }
+
+  onLikeClick(event: any) {
+    this
+      .membersService
+      .toggleLike(this.member.id)
+      .subscribe({
+        next: (result:any) => { this.hasLike = result.didLike; }
+      });
   }
 
   loadMemberData(userName: string)

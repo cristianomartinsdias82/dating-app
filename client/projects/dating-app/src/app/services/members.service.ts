@@ -2,7 +2,7 @@ import { QueryParams } from './../models/query-params';
 import { PaginatedResult } from './../models/paginated-result';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, generate, map, Observable, of,tap } from 'rxjs';
+import { map, Observable, of,tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member';
 
@@ -136,6 +136,24 @@ export class MembersService {
                 }
               })
             );
+  }
+
+  getPaginatedLikedMembersFor(id: string, queryParams: QueryParams): Observable<PaginatedResult<Member[]>> {
+
+    return this.getPaginatedResult<Member[]>(`users/${id}/liked-users`, queryParams);
+
+  }
+
+  getPaginatedLikerMembersFor(id: string, queryParams: QueryParams): Observable<PaginatedResult<Member[]>> {
+
+    return this.getPaginatedResult<Member[]>(`users/${id}/liker-users`, queryParams);
+
+  }
+
+  toggleLike(id: string) {
+
+    return this.httpClient.put(`${environment.baseUrl}users/toggle-like`, { likedUserId : id });
+
   }
 
   private getMemberFromCacheBy(expression): Member {
