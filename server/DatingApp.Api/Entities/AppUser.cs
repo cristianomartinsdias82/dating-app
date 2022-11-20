@@ -22,9 +22,15 @@ namespace DatingApp.Api.Entities
 
         public virtual ICollection<Photo> Photos { get; set; }
 
+
+        //See Data/DatingAppDbContext.cs -> OnModelCreating(...) to see the relationship setup logic
         public virtual ICollection<UserLike> LikedByUsers { get; set; } //the users that liked me
         public virtual ICollection<UserLike> LikedUsers { get; set; } //the users that I liked
-        
+
+        //See Data/DatingAppDbContext.cs -> OnModelCreating(...) to see the relationship setup logic
+        public virtual ICollection<Message> SentMessages { get; set; }
+        public virtual ICollection<Message> ReceivedMessages { get; set; }
+
         // public int Age
         // {
         //     get

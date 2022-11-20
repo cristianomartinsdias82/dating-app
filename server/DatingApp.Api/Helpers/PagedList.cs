@@ -25,6 +25,16 @@ namespace DatingApp.Api.Helpers
 
         public static async Task<PagedList<T>> CreateAsync(
             IQueryable<T> source,
+            PaginationParameters paginationParameters,
+            CancellationToken cancellationToken = default)
+            => await CreateAsync(
+                source,
+                paginationParameters.PageNumber,
+                paginationParameters.PageSize,
+                cancellationToken);
+
+        public static async Task<PagedList<T>> CreateAsync(
+            IQueryable<T> source,
             int pageNumber,
             int pageSize,
             CancellationToken cancellationToken = default)

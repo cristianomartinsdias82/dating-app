@@ -1,1 +1,98 @@
-<p>messages works!</p>
+<div class="row mt-2 mb-4">
+  <div class="col-4">
+    <div class="btn-group" name="messageType">
+      <button class="btn btn-primary" [ngClass]="{ active : messageType === 3 }" btnRadio="Unread" [(ngModel)]="messageType" (click)="loadMessages()">
+        <i class="fa fa-envelope"></i>&nbsp;Unread
+      </button>
+      <button class="btn btn-primary" [ngClass]="{ active : messageType === 1 }" btnRadio="Inbox" [(ngModel)]="messageType" (click)="loadMessages()">
+        <i class="fa fa-envelope-open"></i>&nbsp;Inbox
+      </button>
+      <button class="btn btn-primary" [ngClass]="{ active : messageType === 2 }" btnRadio="Outbox" [(ngModel)]="messageType" (click)="loadMessages()">
+        <i class="fa fa-paper-plane"></i>&nbsp;Outbox
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="!messages || messages.length === 0">
+  <h3>{{messageCountLabel}}</h3>
+</div>
+
+<div class="row" *ngIf="messages?.length > 0">
+  <table class="table table-striped table-hover" style="cursor: pointer">
+    <thead>
+      <tr>
+        <td colspan="4" class="text-right">
+          {{messageCountLabel}}
+        </td>
+      </tr>
+      <tr>
+        <th style="width: 40%">Message</th>
+        <th style="width: 20%">From / to</th>
+        <th style="width: 20%">Sent / received</th>
+        <th style="width: 20%">Actions</th>
+      </tr>
+    </thead>
+    <tfoot class="text-right">
+      <tr>
+        <td colspan="4">
+          {{messageCountLabel}}
+        </td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr *ngFor="let message of messages">
+        <td>
+          <a routerLink="{{messageType === 2 ? '/members/' + message.recipientUserName: '/members/' + message.senderUserName}}" [queryParams]="{ tab : 'messages' }">
+            {{message.content}}
+          </a>
+        </td>
+        <td>
+          <div *ngIf="messageType === 2">
+            <img class="img-circle rounded-circle mr-2" [src]="message.recipientPhotoUrl || './assets/user.png'" [alt]="message.recipientKnownAs"/>
+            <strong>{{message.recipientUserName | titlecase}}</strong>
+          </div>
+          <div *ngIf="messageType !== 2">
+            <img class="img-circle rounded-circle mr-2" [src]="message.senderPhotoUrl || './assets/user.png'" [alt]="message.senderKnownAs" />
+            <strong>{{message.senderUserName | titlecase}}</strong>
+          </div>
+        </td>
+        <td>{{message.dateSent | timeago:false}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="onDelete(message, modalTemplate)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row" *ngIf="messages && pagination?.pageCount > 1">
+  <div class="d-flex justify-content-center">
+    <pagination
+    [classList]="'my-2'"
+    [totalItems]="pagination.itemCount"
+    [itemsPerPage]="pagination.pageSize"
+    [(ngModel)]="pagination.pageNumber"
+    (pageChanged)="onPageChanged($event)"
+    [boundaryLinks]="true"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"></pagination>
+    <span class="col-3 ml-2 form-inline">
+      <label>Items per page:</label>
+      <select [(ngModel)]="pageSize" class="form-control" (change)="onChanged($event)">
+        <option selected value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+    </span>
+  </div>
+</div>
+<ng-template #modalTemplate>
+  <div class="modal-body text-center">
+    <p>Confirm deleting the selected message?</p>
+    <button type="button" class="btn btn-default" (click)="onConfirmDeleteMessage()">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDeleteMessage()" >No</button>
+  </div>
+</ng-template>

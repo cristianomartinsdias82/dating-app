@@ -62,7 +62,7 @@
     lastText="&raquo;"></pagination>
     <span class="col-2 ml-2 form-inline">
       <label>Items per page:</label>
-      <select [(ngModel)]="itemsPerPage" class="form-control" (change)="onChanged($event)">
+      <select [(ngModel)]="pageSize" class="form-control" (change)="onChanged($event)">
         <option selected value="5">5</option>
         <option value="10">10</option>
         <option value="20">20</option>

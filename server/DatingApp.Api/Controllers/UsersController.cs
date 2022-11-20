@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using DatingApp.Api.Data.Persistence;
 using DatingApp.Api.Dtos;
@@ -220,7 +219,6 @@ namespace DatingApp.Api.Controllers
 
         [HttpGet("{id:Guid}/liked-users")]
         [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async ValueTask<IActionResult> GetLikedUsers(Guid id, [FromQuery] QueryParams queryParams, CancellationToken cancellationToken)
         {
@@ -241,7 +239,6 @@ namespace DatingApp.Api.Controllers
 
         [HttpGet("{id:Guid}/liker-users")]
         [ProducesResponseType(typeof(AppUser), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(AppUser), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async ValueTask<IActionResult> GetLikerUsers(Guid id, [FromQuery] QueryParams queryParams, CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-<div class="row" *ngIf="member">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail" />
@@ -26,13 +26,13 @@
             <span [textContent]="hasLike ? 'Dislike' : 'Like'" class="mr-1"></span>
             <i [ngClass]="hasLike ? 'fa-solid' : 'fa-regular'" class="fa fa-heart"></i>
           </button>
-          <button class="btn btn-success">Message</button>
+          <button (click)="onMessageClick($event)" class="btn btn-success">Message</button>
         </div>
       </div>
     </div>
   </div>
   <div class="col-8">
-    <tabset class="member-tabset">
+    <tabset class="member-tabset" #tabset>
       <tab heading="About {{member.knownAs}}">
         <h4>Description</h4>
         <p>{{member.introduction}}</p>
@@ -49,8 +49,11 @@
         <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
       </tab>
 
-      <tab heading="Messages">
-        <p>Message will go HERE</p>
+      <tab heading="{{messagesTabHeadingTitle}}" (selectTab)="onTabActivated($event)">
+        <dta-messages-thread
+          [messages]="messages"
+          [recipientMember]="member"
+          (messageCreated)="onMessageCreated($event)"></dta-messages-thread>
       </tab>
     </tabset>
   </div>

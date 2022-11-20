@@ -26,6 +26,7 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { LikesComponent } from './members/likes/likes.component';
 import { LikeMembersListComponent } from './members/likes/like-members-list.component';
 import { LikeMembersListItemComponent } from './members/likes/like-members-list-item.component';
+import { MessagesThreadComponent } from './members/messages-thread/messages-thread.component';
 //import { DateInputComponent } from './forms/date-input/date-input.component'; //NOT WORKING!
 //import { TextInputComponent } from './forms/text-input/text-input.component'; //NOT WORKING!
 
@@ -46,6 +47,7 @@ import { LikeMembersListItemComponent } from './members/likes/like-members-list-
     LikesComponent,
     LikeMembersListComponent,
     LikeMembersListItemComponent,
+    MessagesThreadComponent
     //DateInputComponent, //NOT WORKING
     //TextInputComponent //NOT WORKING
   ],

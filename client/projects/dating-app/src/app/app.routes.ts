@@ -1,3 +1,4 @@
+import { MemberDetailsResolver } from './resolvers/member-details.resolver';
 import { PreventUnsavedDataLossGuard } from './guards/prevent-unsaved-data-loss.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -19,7 +20,7 @@ export const AppRoutes: Routes = [
    canActivate: [AuthenticationGuard],
    children: [
     { path: 'members', component: MembersListComponent },
-    { path: 'members/:id', component: MemberDetailsComponent },
+    { path: 'members/:id', component: MemberDetailsComponent, resolve: {member: MemberDetailsResolver} },
     { path: 'member/profile', component: MemberEditComponent, canDeactivate: [PreventUnsavedDataLossGuard] },
     { path: 'lists', component: LikesComponent },
     { path: 'messages', component: MessagesComponent }

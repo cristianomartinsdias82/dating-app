@@ -6,6 +6,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -24,6 +25,7 @@ import { TimeagoModule } from 'ngx-timeago';
     ButtonsModule.forRoot(),
     NgxGalleryModule,
     NgxSpinnerModule.forRoot({ type: 'line-scale-party' }),
+    ModalModule.forRoot(),
     PaginationModule.forRoot(),
     FileUploadModule,
     TimeagoModule.forRoot()

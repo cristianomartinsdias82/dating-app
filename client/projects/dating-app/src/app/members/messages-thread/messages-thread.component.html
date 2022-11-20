@@ -1,0 +1,31 @@
+<div class="row" *ngIf="!messages">
+  <div class="col-12">
+    <h1>No messages for the moment.</h1>
+  </div>
+</div>
+<div class="row bg-light rounded" *ngIf="messages">
+  <div *ngFor="let message of messages; trackBy: trackByMethod" class="message offset-sm-1 col-7 alert" [ngClass]="getMessageItemHtmlClasses(message)">
+    <p>{{message.dateSent | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+    <div class="row">
+      <div class="col-1">
+        <img class="img-circle rounded-circle" src="{{message.senderPhotoUrl || './assets/user.png'}}" />
+      </div>
+      <div class="col-11">
+        <p class="ml-2">{{getWhoSaid(message)}}</p>
+        <p class="ml-2">{{message.content}}{{!message.dateRead ? ' (unread)' : ''}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-1">
+  <div class="rounded bg-light col-12 px-2 py-2">
+    <form #frm="ngForm" (ngSubmit)="onSendMessage(frm)" autocomplete="off">
+      <div class="input-group">
+        <input required name="content" ngModel type="text" maxlength="800" class="form-control input-sm" placeholder="Send message" />
+        <div class="input-group-append">
+          <button [disabled]="!frm.valid" class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

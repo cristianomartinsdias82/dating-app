@@ -3,23 +3,17 @@ using DatingApp.Api.Entities;
 
 namespace DatingApp.Api.Helpers
 {
-    public record QueryParams
-    (
-        [Range(1, 999999)]
-        int PageNumber,
-
-        [Range(1, 50)]
-        int PageSize,
-
-        Gender? Gender,
+    public sealed record QueryParams : PaginationParameters
+    {
+        public Gender? Gender {get;init;}
 
         [Range(18, 999999)]
-        int? MinAge,
+        public int? MinAge {get;init;}
 
-        int? MaxAge,
+        public int? MaxAge {get;init;}
 
-        string SortColumn,
+        public string SortColumn {get;init;}
 
-        string SortDirection
-    );
+        public string SortDirection {get;init;} = "asc";
+    }
 }

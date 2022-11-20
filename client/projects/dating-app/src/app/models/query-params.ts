@@ -1,3 +1,4 @@
+import { MessageTypes } from './message-types';
 import { HttpParams } from '@angular/common/http';
 
 export class QueryParams {
@@ -9,7 +10,8 @@ export class QueryParams {
     public sortColumn = 'knownAs',
     public minAge?: number,
     public maxAge?: number,
-    public gender?: number) {}
+    public gender?: number,
+    public container?: MessageTypes) {}
 
   public getHttpParams(): HttpParams {
 
@@ -35,6 +37,9 @@ export class QueryParams {
 
     if (this.sortDirection)
       httpParams = httpParams.append('sortDirection', this.sortDirection);
+
+    if (this.container)
+      httpParams = httpParams.append('container', this.container);
 
     return httpParams;
   }

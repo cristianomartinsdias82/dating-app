@@ -64,6 +64,13 @@ dotnet ef migrations add AddedUrlPropertyToPhotoEntity
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 
 dotnet add package CloudinaryDotNet --version 1.20.0
+
+dotnet ef migrations add LikeEntityAdded
+dotnet ef database update
+
+dotnet ef migrations add AddedMessagesEntity
+dotnet ef database update
+
 -----------------------------------------------------------------------
 
 CLIENT-SIDE
@@ -208,3 +215,15 @@ ng g c forms/TextInput --skip-tests
 ng g class forms/TextInputTypes --skip-tests
 
 ng g c forms/DateInput --skip-tests
+
+ng g s services/message --skip-tests
+
+ng g interface models/message
+
+ng g enum models/messagetypes
+
+ng g c members/MessagesThread --skip-tests
+
+ng g i models/create-message
+
+ng g resolver resolvers/MemberDetails --skip-tests

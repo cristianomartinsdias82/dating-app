@@ -15,7 +15,7 @@ export class MembersListComponent implements OnInit {
   members: Member[];
   pagination: Pagination;
   pageNumber = 1;
-  itemsPerPage = 5;
+  pageSize = 5;
   gender = null;
   sortColumn = 'knownAs';
   sortDirection = 'asc';
@@ -26,7 +26,7 @@ export class MembersListComponent implements OnInit {
 
     return new QueryParams(
       this.pageNumber,
-      this.itemsPerPage,
+      this.pageSize,
       this.sortDirection,
       this.sortColumn,
       this.minAge,
@@ -55,7 +55,7 @@ export class MembersListComponent implements OnInit {
       return;
 
     this.pageNumber = lastQueryFilter.pageNumber;
-    this.itemsPerPage = lastQueryFilter.pageSize;
+    this.pageSize = lastQueryFilter.pageSize;
     this.gender = lastQueryFilter.gender;
     this.sortColumn = lastQueryFilter.sortColumn;
     this.sortDirection = lastQueryFilter.sortDirection;

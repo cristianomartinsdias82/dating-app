@@ -5,28 +5,9 @@ import { Injectable } from '@angular/core';
 import { map, Observable, of,tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member';
-
-export interface IQueryCacheItem<T>
-{
-  queryParams: QueryParams,
-  key: string,
-  value: T
-}
-
-export class QueryCacheHelper
-{
-  static add<T>(queryParams: QueryParams, searchResults: T, cache: IQueryCacheItem<T>[]) {
-    cache.push({ queryParams, key : this.generateKey(queryParams), value : searchResults });
-  }
-
-  static get<T>(queryParams: QueryParams, cache: IQueryCacheItem<T>[]) : T {
-    return cache.find(x => x.key == this.generateKey(queryParams))?.value;
-  }
-
-  private static generateKey(queryParams: QueryParams): string {
-    return Object.values(queryParams).join('|');
-  }
-}
+import { QueryCacheItem } from '../models/query-cache-item';
+import { QueryCacheHelper } from '../helpers/query-cache-helper';
+import { getPaginatedResult } from '../helpers/pagination-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -35,25 +16,9 @@ export class MembersService {
 
   members:Member[];
   paginatedMembers: PaginatedResult<Member[]> = new PaginatedResult([], null);
-
-  cachedQueryResults: IQueryCacheItem<PaginatedResult<Member[]>>[] = [];
+  cachedQueryResults: QueryCacheItem<PaginatedResult<Member[]>>[] = [];
 
   constructor(private httpClient: HttpClient) { }
-
-  /*
-  getMembers() {
-
-    if (!this.members || this.members.length === 0) {
-      return this.httpClient
-          .get<Member[]>(`${environment.baseUrl}users`)
-          .pipe(
-            tap<Member[]>(data => { this.members = data })
-          );
-    }
-
-    return of(this.members);
-  }
-  */
 
   getPaginatedMembers(params: QueryParams): Observable<PaginatedResult<Member[]>> {
 
@@ -62,7 +27,7 @@ export class MembersService {
       return of(cachedResult);
     }
 
-    return this.getPaginatedResult<Member[]>('users', params)
+    return getPaginatedResult<Member[]>(this.httpClient, 'users', params)
                .pipe(
                 map(response => {
 
@@ -83,29 +48,23 @@ export class MembersService {
   }
 
   getMemberById(id: string) {
-    /*
-    const member = this.members?.find(m => m.id === id);
-    if (member)
-      return of(member);
-    */
 
-    if (!this.cachedQueryResults || this.cachedQueryResults.length === 0)
+    const member = this.getMemberFromCacheBy((m:Member) => m.id === id);
+
+    if (!member)
       return this.httpClient.get<Member>(`${environment.baseUrl}users/${id}`);
 
-    return of(this.getMemberFromCacheBy((m:Member) => m.id === id));
+    return of(member);
   }
 
   getMemberByUserName(userName: string) {
-    /*
-    const member = this.members?.find(m => m.userName === userName);
-    if (member) {
-      return of(member);
-    }
-    */
-    if (!this.cachedQueryResults || this.cachedQueryResults.length === 0)
-      return this.httpClient.get<Member>(`${environment.baseUrl}users/username/${userName}`);
 
-    return of(this.getMemberFromCacheBy((m:Member) => m.userName === userName));
+    const member = this.getMemberFromCacheBy((m:Member) => m.userName === userName);
+    if (!member) {
+      return this.httpClient.get<Member>(`${environment.baseUrl}users/username/${userName}`);
+    }
+
+    return of(member);
   }
 
   updateMemberProfile(member: Member) {
@@ -140,13 +99,13 @@ export class MembersService {
 
   getPaginatedLikedMembersFor(id: string, queryParams: QueryParams): Observable<PaginatedResult<Member[]>> {
 
-    return this.getPaginatedResult<Member[]>(`users/${id}/liked-users`, queryParams);
+    return getPaginatedResult<Member[]>(this.httpClient, `users/${id}/liked-users`, queryParams);
 
   }
 
   getPaginatedLikerMembersFor(id: string, queryParams: QueryParams): Observable<PaginatedResult<Member[]>> {
 
-    return this.getPaginatedResult<Member[]>(`users/${id}/liker-users`, queryParams);
+    return getPaginatedResult<Member[]>(this.httpClient, `users/${id}/liker-users`, queryParams);
 
   }
 
@@ -160,23 +119,5 @@ export class MembersService {
 
     return this.cachedQueryResults.reduce((arr, elem) => elem.value.result,[])
                                   .find(expression);
-  }
-
-  private getPaginatedResult<T>(endpoint: string, queryParams: QueryParams) {
-
-    return this.httpClient
-              .get<T>(
-                `${environment.baseUrl}${endpoint}`,
-                {
-                  observe: 'response',
-                  params: queryParams.getHttpParams()
-                })
-              .pipe(
-                map(
-                  response => new PaginatedResult<T>(
-                                    response.body,
-                                    JSON.parse(response.headers.get('Pagination')))
-                )
-              );
   }
 }

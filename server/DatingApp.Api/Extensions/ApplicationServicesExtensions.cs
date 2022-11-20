@@ -26,6 +26,7 @@ namespace DatingApp.Api.Extensions
             services.AddScoped<IHashProvider, HashProvider>();
             services.AddScoped<IAuthTokenIssuing, AuthTokenIssuer>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IImageUploadServiceClient, CloudinaryImageUploadServiceClient>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             

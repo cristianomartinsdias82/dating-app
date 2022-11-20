@@ -30,7 +30,6 @@ namespace DatingApp.Api.Mappings
             CreateMap<MemberDto, AppUser>()
                 .ForMember(
                     x => x.Gender,
-                    // member => member.MapFrom(y => y.Gender == "Male" ? Gender.Male : Gender.Female)
                     member => member.MapFrom(y => Enum.Parse<Gender>(y.Gender, true))
                 );
 
@@ -43,6 +42,15 @@ namespace DatingApp.Api.Mappings
                     x => x.Gender,
                     member => member.MapFrom(y => Enum.Parse<Gender>(y.Gender, true))
                 );
+
+            CreateMap<Message, MessageDto>()
+                .ForMember(x => x.SenderPhotoUrl, x => x.MapFrom(y => y.Sender.Photos != null && y.Sender.Photos.Any(x => x.IsMain) ? y.Sender.Photos.First(y => y.IsMain).Url : default))
+                .ForMember(x => x.RecipientPhotoUrl, x => x.MapFrom(y => y.Recipient.Photos != null && y.Recipient.Photos.Any(x => x.IsMain) ? y.Recipient.Photos.First(y => y.IsMain).Url : default))
+                .ForMember(x => x.RecipientKnownAs, x => x.MapFrom(x => x.Recipient.KnownAs))
+                .ForMember(x => x.RecipientUserName, x => x.MapFrom(x => x.Recipient.UserName))
+                .ForMember(x => x.SenderKnownAs, x => x.MapFrom(x => x.Sender.KnownAs))
+                .ForMember(x => x.SenderUserName, x => x.MapFrom(x => x.Sender.UserName));
+
         }
     }
 }
